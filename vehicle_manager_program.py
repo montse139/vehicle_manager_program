@@ -12,7 +12,7 @@ def main():
     vehicle_list = []
 
     for item in vehicle_data_file:
-        brand, model, kilometers_done, general_service_date = item.split(";")
+        brand, model, kilometers_done, general_service_date = item.rstrip("\r\n").split(";")
 
         vehicle = Vehicle(brand=brand, model=model, kilometers_done=kilometers_done, general_service_date=general_service_date)
 
@@ -54,7 +54,7 @@ def update_vehicles(vehicles):
     print "Kilometers: " + vehicle.kilometers_done
     print "General Service Date: " + vehicle.general_service_date
 
-    # this is example only for changing task name. Status and due date have the same logic.
+    # this example is only for changing kilometers_done.Other properties have the same logic.
     new_kilometers = raw_input("Enter new kilometers (press enter to skip): ")
     vehicle.kilometers_done = new_kilometers
     print "Vehicle kilometers successfully changed"
@@ -66,7 +66,7 @@ def add_new_vehicle(vehicles):
     kilometers_done = raw_input("Enter the kilometers done so far: ")
     general_service_date = raw_input("Enter the general service date (in this format: 05-MAR-2017): ")
 
-    new_vehicle = Vehicle(brand="\n"+brand, model=model, kilometers_done=kilometers_done, general_service_date=general_service_date)  # \n means new line. This will be helpful when saving tasks back to TXT file.
+    new_vehicle = Vehicle(brand=brand, model=model, kilometers_done=kilometers_done, general_service_date=general_service_date)
 
     vehicles.append(new_vehicle)
 
@@ -78,7 +78,7 @@ def save_changes(vehicles, vehicle_data_file):
     vehicle_data_file = open("vehicle_data.txt", "w")
 
     for item in vehicles:
-        vehicle_data_file.write(item.brand + ";" + item.model + ";" + item.kilometers_done + ";" + item.general_service_date)
+        vehicle_data_file.write(item.brand + ";" + item.model + ";" + item.kilometers_done + ";" + item.general_service_date + "\n")
 
 
 if __name__ == "__main__":
